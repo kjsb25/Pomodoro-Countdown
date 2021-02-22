@@ -1,6 +1,8 @@
 const secondsInaMinute = 60;
 const minutes_25 = secondsInaMinute * 25;
 const minutes_50 = secondsInaMinute * 50;
+const minutes_10 = secondsInaMinute * 10;
+const minutes_5 = secondsInaMinute * 5;
 const seconds_10 = 10; //for testing
 
 let interval;
@@ -9,15 +11,25 @@ let countdownWasStarted = false;
 let pomodoroDuration = minutes_50; //by default
 let timeLeftInSeconds = 0;
 
+let workingIcon="🥜";
+let breakIcon="🐄";
+
+
+
 // Button Handlers
 function updateDuration() {
   //The pomodoro duration is by default 50, but we can change to 25!
   if(pomodoroDuration == minutes_50 ) {
     pomodoroDuration = minutes_25;
-  } else {
+  } else if(pomodoroDuration == minutes_25) {
+    pomodoroDuration = minutes_10;
+  }else if(pomodoroDuration == minutes_10){
+    pomodoroDuration = minutes_5;
+  }else{
     pomodoroDuration = minutes_50;
   }
 
+  updateIcon();
   timeLeftInSeconds = pomodoroDuration
   updateTimeString()
 }
@@ -94,6 +106,16 @@ function updatePlayPauseButton() {
     playPauseImageSrc = "pauseButton4x.png"
   }
   document.getElementById("playPause").src = playPauseImageSrc;
+}
+
+function updateIcon() {
+  let icon=document.getElementById("tomato").innerHTML;
+  if(pomodoroDuration == minutes_50  || pomodoroDuration == minutes_25) {
+    icon=workingIcon;
+  } else if(pomodoroDuration == minutes_10 || pomodoroDuration == minutes_5) {
+    icon=breakIcon;
+  }
+  document.getElementById("tomato").innerHTML = icon;
 }
 
 function updateTimeString() {
